@@ -1,6 +1,6 @@
 # VideoTree: Adaptive Tree-based Video Representation for LLM Reasoning on Long Videos
 
-This is official implementation for VideoTree 
+This is the official implementation for VideoTree 
 
 [![Project Website](https://img.shields.io/badge/Project-Website-blue)](https://videotree2024.github.io/)  [![arXiv](https://img.shields.io/badge/arXiv-2405.18406-b31b1b.svg)]()
 
@@ -39,12 +39,12 @@ Download data.zip from the File [LLoVi](https://drive.google.com/file/d/13M10CB5
 unzip data.zip
 ```
 
-You could extracted captions for **EgoSchema** at `./data`. It also contains dataset annotations.
+You could extract captions for **EgoSchema** at `./data`. It also contains dataset annotations.
 
 Specifically, [LaViLa](https://arxiv.org/pdf/2212.04501.pdf) base model is leveraged to extract EgoSchema captions at 1 FPS.
 
 ## Future plans
-Due to the limit of time, the codebase is now under-constructed. We plan to improve the code structure and incorporate the full framework with adaptive width expansion in the future. We will also incorporate the scipts/captions for NeXT-QA and IntentQA in the future. 
+Due to the limit of time, the codebase is now under-constructed. We plan to improve the code structure and incorporate the full framework with adaptive width expansion in the future. We will also incorporate the scripts/captions for NExT-QA and IntentQA in the future. 
 
 
 ## Experiments
@@ -61,7 +61,7 @@ python tree_expansion/width_expansion.py
 ```
 
 ### Relevance Scoring
-Please update the localzation path (output of last step) into the main_rel.py before running the code.
+Please update the path (output of the last step) into the main_rel.py before running the code.
 
 
 ```bash
