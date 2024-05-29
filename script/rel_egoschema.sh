@@ -1,0 +1,1 @@
+python main_rel.py --output_filename standard_qa.json --fewshot_example_path /data/path/egoschema/few_shot_6.json --output_base_path /output/path --model gpt-4-1106-preview --prompt_type cap_score --api_key YOUR_OPENAI_KEY

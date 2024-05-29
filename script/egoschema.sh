@@ -1,0 +1,1 @@
+python main_qa.py --output_filename standard_qa.json --fewshot_example_path /data/path/egoschema/few_shot_6.json --output_base_path /qa/output/path --output_filename standard_qa_gpt4_1106.json --api_key YOUR_OPENAI_KEY
