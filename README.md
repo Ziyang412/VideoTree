@@ -8,7 +8,8 @@ This is the official implementation for VideoTree
 
 ### University of North Carolina at Chapel Hill
 
-* Introduction: We introduce VideoTree, a query-adaptive and hierarchical framework for long-video understanding with LLMs. Specifically, VideoTree dynamically extracts query-related information from the input video and builds a tree-based video representation for LLM reasoning.
+
+We introduce VideoTree, a query-adaptive and hierarchical framework for long-video understanding with LLMs. Specifically, VideoTree dynamically extracts query-related information from the input video and builds a tree-based video representation for LLM reasoning.
 
 <img src="./asset/teaser.png" alt="teaser image" width="800"/>
 
