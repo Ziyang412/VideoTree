@@ -2,7 +2,7 @@
 
 This is the official implementation for VideoTree 
 
-[![Project Website](https://img.shields.io/badge/Project-Website-blue)](https://videotree2024.github.io/)  [![arXiv](https://img.shields.io/badge/arXiv-2405.18406-b31b1b.svg)]()
+[![Project Website](https://img.shields.io/badge/Project-Website-blue)](https://videotree2024.github.io/)  [![arXiv](https://img.shields.io/badge/arXiv-2405.19209-b31b1b.svg)](https://arxiv.org/abs/2405.19209)
 
 ### Authors: [Ziyang Wang*](https://ziyangw2000.github.io/), [Shoubin Yu*](https://yui010206.github.io/), [Elias Stengel-Eskin*](https://esteng.github.io/), [Jaehong Yoon](https://jaehong31.github.io/), [Feng Cheng](https://klauscc.github.io/), [Gedas Bertasius](https://www.gedasbertasius.com/), [Mohit Bansal](https://www.cs.unc.edu/~mbansal/)
 
@@ -101,10 +101,15 @@ python output_prep/convert_answer_to_pred.py
 ## Acknowledgments
 We thank the developers of [LLoVi](https://github.com/CeeZh/LLoVi), [LifelongMemory](https://github.com/Agentic-Learning-AI-Lab/lifelong-memory), [EVA-CLIP](https://huggingface.co/BAAI/EVA-CLIP-18B#eva-clip-8b) for their public code release. We also thank the authors of [VideoAgent](https://arxiv.org/pdf/2403.10517) for the helpful discussion. 
 
+# Reference
+Please cite our paper if you use our models in your works:
+
+```bibtex
+@article{wang2024videotree,
+  title={VideoTree: Adaptive Tree-based Video Representation for LLM Reasoning on Long Videos},
+  author={Wang, Ziyang and Yu, Shoubin and Stengel-Eskin, Elias and Yoon, Jaehong and Cheng, Feng and Bertasius, Gedas and Bansal, Mohit},
+  journal={arXiv preprint arXiv:2405.19209},
+  year={2024}
+}
 
 
-## Reference
-If you find this repository useful for your research, please consider citing our work:
-```
-todo: bibtex
-```
