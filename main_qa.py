@@ -9,20 +9,15 @@ from tqdm import tqdm
 from pprint import pprint
 
 
-
 def launch():
     args = parse_args()
     pprint(args)
 
-    # next
-    loc_path = 'path/to/final/localization/json/file'
-
     # Reading the JSON data from that file
-    with open(loc_path, 'r') as file:
-        frame_sel_data_1 = json.load(file)
-
-
-    frame_sel_dict_1 = {item['name']: item['sorted_values'] for item in frame_sel_data_1}
+    if args.tree_node_idx is not None:
+        with open(args.tree_node_idx, 'r') as file:
+            tree_node_idx = json.load(file)
+        tree_node_idx_dict = {item['name']: item['sorted_values'] for item in tree_node_idx}
 
 
         # output
@@ -47,6 +42,8 @@ def launch():
     model = get_model(args)
     model.set_post_process_fn(prompter.post_process_fn)
 
+    loc = None
+
     # answer
     pbar = tqdm(total=len(dataset))
     for i, item in enumerate(dataset):
@@ -55,15 +52,15 @@ def launch():
         clip_length = int(1/args.fps) if args.fps < 1 else 1/args.fps
         few_shot_examples = build_fewshot_examples(args.fewshot_example_path, args.data_path)
 
-        loc = frame_sel_dict_1.get(ukey_1, None)
-        # print("loc:", loc)
+        if args.tree_node_idx is not None:
+            loc = tree_node_idx_dict.get(ukey_1, None)
 
 
         model.set_post_process_fn(prompter.post_process_fn)
         prompt = prompter.fill(**item, fps=args.fps, clip_length=clip_length, num_words=args.num_words_in_sum, examplars=few_shot_examples, loc_pred = loc)
         pred, info = model.forward(prompter.head, prompt)
         ukey_name = 'quid' if 'quid' in item else 'uid'
-        # print("item: ", item)
+        # print("pred: ", pred)
         ukey = item[ukey_name]
 
         processed[ukey] = item

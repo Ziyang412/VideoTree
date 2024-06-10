@@ -33,10 +33,15 @@ def parse_args():
     # data
     parser.add_argument("--dataset", default='egoschema', type=str)  # 'egoschema', 'nextqa', 'nextgqa', 'intentqa'
 
-    # fullset  
-    parser.add_argument("--data_path", default='/data/path/lavila_fullset.json', type=str) 
-    parser.add_argument("--anno_path", default='/data/path/fullset_anno.json', type=str)  
-    parser.add_argument("--duration_path", default='/data/path/duration.json', type=str) 
+    # subset
+    parser.add_argument("--data_path", default='path/data/egoschema/lavila_subset.json', type=str) 
+    parser.add_argument("--anno_path", default='path/data/egoschema/subset_anno.json', type=str)
+    parser.add_argument("--duration_path", default='path/data/egoschema/duration.json', type=str) 
+
+    # # fullset  
+    # parser.add_argument("--data_path", default='/data/path/lavila_fullset.json', type=str) 
+    # parser.add_argument("--anno_path", default='/data/path/fullset_anno.json', type=str)  
+    # parser.add_argument("--duration_path", default='/data/path/duration.json', type=str) 
     parser.add_argument("--fps", default=1.0, type=float) 
     parser.add_argument("--num_examples_to_run", default=-1, type=int)
     ## backup pred
@@ -48,8 +53,11 @@ def parse_args():
     parser.add_argument("--nextgqa_pred_qa_path", default="", type=str)
 
     # output
-    parser.add_argument("--output_base_path", required=True, type=str)  
+    parser.add_argument("--output_base_path", default="", type=str)  
     parser.add_argument("--output_filename", required=True, type=str)  
+
+    # tree information
+    parser.add_argument("--tree_node_idx", required=True, type=str)  
 
     # prompting
     parser.add_argument("--model", default="gpt-4-1106-preview", type=str)

@@ -33,6 +33,21 @@ from transformers import AutoTokenizer
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 
+def load_image_features(name_ids, save_folder):
+    """
+    Load image features from a .pt file.
+
+    Args:
+    - filename (str): Name of the .pt file to load
+
+    Returns:
+    - img_feats (torch.Tensor): Loaded image features
+    """
+    filename = f"{name_ids}.pt"  # Construct filename with name_ids
+    filepath = os.path.join(save_folder, filename)
+    img_feats = torch.load(filepath)
+    return img_feats
+
 def find_closest_points_per_cluster(x, cluster_ids, cluster_centers):
     # Dictionary to store the indices of the closest points for each cluster
     closest_points_idx_per_cluster = {cluster_id: [] for cluster_id in range(len(cluster_centers))}
@@ -79,34 +94,14 @@ def save_json(data, fn, indent=4):
         json.dump(data, f, indent=indent)
 
 
-
-# image_path = "CLIP.png"
-model_name_or_path = "BAAI/EVA-CLIP-8B" # or /path/to/local/EVA-CLIP-18B
-
-image_size = 448
-processor = CLIPImageProcessor.from_pretrained("openai/clip-vit-large-patch14")
-
-
-model = AutoModel.from_pretrained(
-    model_name_or_path, 
-    torch_dtype=torch.float16,
-    trust_remote_code=True).to('cuda').eval()
-
-
-
 def clip_es():
     device = "cuda" if torch.cuda.is_available() else "cpu" 
-    processor = CLIPImageProcessor.from_pretrained("openai/clip-vit-large-patch14")
 
-    model = AutoModel.from_pretrained(
-    model_name_or_path, 
-    torch_dtype=torch.float16,
-    trust_remote_code=True).to('cuda').eval()
     resume = True
     output_base_path = Path('./clip_es')
     output_base_path.mkdir(parents=True, exist_ok=True)
     base_path = Path('/Path/to/Egoschema/dataset/images')
-    # res = {}  # uid --> [narr1, narr2, ...]
+    save_folder = Path('path/to/data/egoschema_features')
 
     all_data = []
 
@@ -123,33 +118,13 @@ def clip_es():
 
     for example_path in example_path_list:
 
+        # for subset videos
         if example_path.name not in subset_names_list:
             continue
-        # else:
-        #     print("example_path in subset")
-        example_output_path = output_base_path / f'{example_path.name}.json'
-        if resume and example_output_path.exists():
-            pbar.update(1)
-            continue
-        narr_list = []
-        image_paths = list(example_path.iterdir())
-        image_paths.sort(key=lambda x: int(x.stem))
-        img_feature_list = []
-        for image_path in image_paths:
-            image = Image.open(str(image_path))
 
-            input_pixels = processor(images=image, return_tensors="pt", padding=True).pixel_values.to('cuda')
-
-            with torch.no_grad(), torch.cuda.amp.autocast():
-                image_features = model.encode_image(input_pixels)
-                img_feature_list.append(image_features)
-                # print("image_features shape",image_features.shape)
-            # print("input pixel shape",input_pixels.shape)
-        # convert img_feature_list to tensor
-        img_feature_tensor = torch.stack(img_feature_list)
-        img_feats = img_feature_tensor.squeeze(1)
-
-        # cluster_ids_x, cluster_centers = kmeans(X=img_feats, num_clusters=32, device=torch.device('cuda:0'))
+        name_ids = example_path.name
+        img_feats = load_image_features(name_ids, save_folder)
+        
         cluster_ids_x, cluster_centers = kmeans(X=img_feats, num_clusters=32, distance='cosine', device=torch.device('cuda:0'))
 
         # send cluster_ids_x to GPU 
@@ -166,7 +141,6 @@ def clip_es():
         all_data.append({"name": example_path.name, "sorted_values": sorted_values, "cluster_ids_x": cluster_ids_x})
        
         pbar.update(1)
-        # save_json(narr_list, example_output_path)
     save_json(all_data, 'first/level/node/output.json')
 
     pbar.close()
@@ -174,5 +148,4 @@ def clip_es():
 
 
 if __name__ == '__main__':
-    # blip2_next()
     clip_es()

@@ -259,6 +259,7 @@ def clip_es():
     output_base_path = Path('./clip_es')
     output_base_path.mkdir(parents=True, exist_ok=True)
     base_path = Path('/Path/to/Egoschema/dataset/images')
+    save_folder = Path('path/to/data/egoschema_features')
     # res = {}  # uid --> [narr1, narr2, ...]
 
     rel_path = '/relevance/output/json/file'
@@ -278,7 +279,6 @@ def clip_es():
 
     i = 0 
     max = 50
-    save_folder = 'saved/image/feature/folder'
 
     for example_path in example_path_list:
 
@@ -304,12 +304,10 @@ def clip_es():
 
         pbar.update(1)
 
-    save_json(all_data, 'path/to/final/localization/json/file')
+    save_json(all_data, '/path/to/depth/expension/output.json')
 
     pbar.close()
 
 
-
 if __name__ == '__main__':
-    # blip2_next()
     clip_es()

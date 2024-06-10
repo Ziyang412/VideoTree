@@ -30,7 +30,7 @@ source activate videetree_env/bin/activate
 pip install openai
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 pip install pandas
-pip install transformers
+pip install transformers==4.28.1
 pip install accelerate
 ```
 
@@ -45,6 +45,14 @@ unzip data.zip
 You could extract captions for **EgoSchema** at `./data`. It also contains dataset annotations.
 
 Specifically, [LaViLa](https://arxiv.org/pdf/2212.04501.pdf) base model is leveraged to extract EgoSchema captions at 1 FPS.
+
+**Download EgoSchema Videos.**
+Please follow [EgoSchema](https://github.com/egoschema/EgoSchema) to download the orginal EgoSchema videos. After downloading, please extract the videos into 1 FPS video frames (save in image format for faster loading speed). Please save in the format of `./data/egoschema_frames/{video_id}/{frame_id}.jpg`. Then, to further speed up the tree building process, we extract the visual features for each frame using [EVA-CLIP-8B](https://huggingface.co/BAAI/EVA-CLIP-8B#eva-clip-8b) and save the features in `./data/egoschema_features/{video_id}.pt`.
+
+```bash
+python data_extraction/extract_images.py
+python data_extraction/extract_features.py
+```
 
 ## Future plans
 Due to the limit of time, the codebase is now under-constructed. We plan to improve the code structure and incorporate the full framework with adaptive width expansion in the future. We will also incorporate the scripts/captions for NExT-QA and IntentQA in the future. 
@@ -83,9 +91,10 @@ python tree_expansion/depth_expansion.py
 
 ### LLM Reasoning
 
+Please update the tree node index file and output path before running the code.
+
 ```bash
 sh scripts/egoschema.sh
-python output_prep/convert_answer_to_pred.py
 ```
 
 
@@ -103,6 +112,16 @@ We thank the developers of [LLoVi](https://github.com/CeeZh/LLoVi), [LifelongMem
 
 # Reference
 Please cite our paper if you use our models in your works:
+<<<<<<< HEAD
+
+```bibtex
+@article{wang2024videotree,
+  title={VideoTree: Adaptive Tree-based Video Representation for LLM Reasoning on Long Videos},
+  author={Wang, Ziyang and Yu, Shoubin and Stengel-Eskin, Elias and Yoon, Jaehong and Cheng, Feng and Bertasius, Gedas and Bansal, Mohit},
+  journal={arXiv preprint arXiv:2405.19209},
+  year={2024}
+}
+=======
 
 ```bibtex
 @article{wang2024videotree,
@@ -113,3 +132,4 @@ Please cite our paper if you use our models in your works:
 }
 
 
+>>>>>>> 65b10f3e3aa32f92ff54820d6b1af3b050b00832

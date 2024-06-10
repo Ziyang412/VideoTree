@@ -9,13 +9,13 @@ from pprint import pprint
 
 
 
-
-
 def get_model(args):
     model_name, temperature = args.model, args.temperature
     if 'gpt' in model_name:
-        model = GPT(model_name, temperature)
-        # model = GPT(args.api_key, model_name, temperature)
+        # # for azure api
+        # model = GPT(model_name, temperature)
+        # for direct openai api
+        model = GPT(args.api_key, model_name, temperature)
 
         return model
     elif 'llama' in model_name:

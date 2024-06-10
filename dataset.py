@@ -59,33 +59,8 @@ class EgoSchemaDataset(BaseDataset):
             if uid not in self.narrations:
                 continue
             narration = self.format_narration(self.narrations[uid])
-            # print("narration before", narration)
-            # captions = narration.split("#C")[1:]  # Skip the first split as it's before the first caption
-            # # print("captions", captions)
-
-            # # # # # Downsample the captions to 1/2 uniformly
-            # # downsampled_captions = captions[::8]
-            # # narration = "narration " + "#C".join(downsampled_captions)
-
-            # # Add an order number before each downsampled caption
-            # numbered_captions = [f"{i+1} clip: {caption}" for i, caption in enumerate(captions)]
-            # narration = "narration " + "#C".join(numbered_captions)
-
-            # # numbered_captions = [f"{i+1}. #C{caption}" for i, caption in enumerate(downsampled_captions)]
-
-
-            # # Reassemble the downsampled and numbered captions into a single string
-            # narration = "narration " + "#C".join(numbered_captions)
-
-
-            # # # Reassemble the downsampled captions into a single string
-            # narration = "narration " + "#C".join(downsampled_captions)
-
-            # print("narration after",narration)
 
             question = item['question']
-
-            # print("question", question)
 
             choices = [item['option 0'], item['option 1'], item['option 2'], item['option 3'], item['option 4']] 
             truth = item['truth'] if 'truth' in item else -1
