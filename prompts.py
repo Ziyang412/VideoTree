@@ -85,13 +85,21 @@ class PromptTemplate(object):
         if 'loc_pred' in kwargs and 'narration' in kwargs and kwargs['loc_pred'] is not None and kwargs['narration'] is not None:
             narration = kwargs['narration']
 
-            # new version
-            narrations = re.findall(r'\d+:.*?(?=\n\d+:|$)', kwargs['narration'], re.DOTALL)
-            narrations = [n.strip() for n in narrations if n.strip()]
+            # Find all occurrences of separators and maintain their positions
+            # Use regex to keep the separators with the split parts
+            parts = re.split(r'(#C|#O)', narration)
+            
+            # Recombine parts with their separators
+            captions = []
+            for i in range(1, len(parts), 2):
+                if i + 1 < len(parts):
+                    captions.append(parts[i] + parts[i + 1])
 
-            # Extracting specific narrations based on the indices provided in loc
-            loc_caption = [narrations[i] for i in kwargs['loc_pred'] if i < len(narrations)]
-            kwargs['narration'] = "narration:" + "\n".join(loc_caption)
+            # Extract relevant captions based on loc_pred indices
+            loc_caption = [captions[i - 1] for i in kwargs['loc_pred'] if i > 0 and i <= len(captions)]
+
+            # Join the relevant captions with "narration" label
+            kwargs['narration'] = "narration " + "".join(loc_caption)
 
         for temp in self.prompt_template:
             prompt_filled.append(temp.substitute(kwargs))
