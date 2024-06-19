@@ -92,7 +92,7 @@ class GPT(Model):
                 info = dict(response.usage)  # completion_tokens, prompt_tokens, total_tokens
                 info['response'] = messages[-1]["content"]
                 info['message'] = messages
-                print("response: ", info['response'])
+                # print("response: ", info['response'])
                 return self.post_process_fn(info['response']), info
 
 

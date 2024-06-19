@@ -52,12 +52,21 @@ def parse_args():
     parser.add_argument("--nextgqa_gt_ground_path", default="", type=str)
     parser.add_argument("--nextgqa_pred_qa_path", default="", type=str)
 
+    #cluster config
+    parser.add_argument("--init_cluster_num", default=8, type=int)
+    parser.add_argument("--max_cluster_num", default=32, type=int)
+    parser.add_argument("--default_adpative_rate", default=2, type=int)
+    parser.add_argument("--iter_threshold", default=4, type=int)
+
+    #frame feature path
+    parser.add_argument("--frame_feat_path", default="", type=str)  
+
     # output
     parser.add_argument("--output_base_path", default="", type=str)  
     parser.add_argument("--output_filename", required=True, type=str)  
 
     # tree information
-    parser.add_argument("--tree_node_idx", required=True, type=str)  
+    parser.add_argument("--tree_node_idx", default="", type=str)  
 
     # prompting
     parser.add_argument("--model", default="gpt-4-1106-preview", type=str)

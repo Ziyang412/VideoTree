@@ -54,47 +54,50 @@ python data_extraction/extract_images.py
 python data_extraction/extract_features.py
 ```
 
+## Update Kmeans-pytorch
+Since the orginal Kmeans-pytorch package doesn't set a iteration limit and will cause perpetual loop issue, we update the init file of the original kmeans-pytorch package.
+
+```bash
+git clone https://github.com/subhadarship/kmeans_pytorch
+cd kmeans_pytorch
+```
+
+Please replace the init file in "kmeans_pytorch" folder with the file we provide in "./kmeans_pytorch" folder (this repo). And run the following command. 
+
+```bash
+pip install --editable .
+```
+
 ## Future plans
-Due to the limit of time, the codebase is now under-constructed. We plan to improve the code structure and incorporate the full framework with adaptive width expansion in the future. We will also incorporate the scripts/captions for NExT-QA and IntentQA in the future. 
+Due to the limit of time, we are still updating the codebase. We will also incorporate the scipts/captions for NeXT-QA and IntentQA in the future. 
 
 
 ## Experiments
 
-VideoTree Variant (static tree width  + depth expansion + LLM reasoning) on EgoSchema
 
-
-### Static Tree Width
-Please update the feature and output path before running the code.
+### Adaptive Breath Exapnsion
+Please update the feature, asgs (in util.py) and output path before running the code.
 ```bash
 
-python tree_expansion/width_expansion.py
+sh scripts/breath_expansion.sh
 
 ```
 
-### Relevance Scoring
-Please update the path (output of the last step) into the main_rel.py before running the code.
+### Relevance-based Depth Expansion
 
-
-```bash
-sh scripts/rel_egoschema.sh
-python output_prep/convert_answer_to_pred_relevance.py
-```
-
-### Depth Expansion
-
-Please update the feature and output path before running the code.
+Please update the feature, the output of last step (the relevance output path and first level cluster information) and output path before running the code.
 ```bash
 
-python tree_expansion/depth_expansion.py
+python depth_expansion.py
 
 ```
 
 ### LLM Reasoning
 
-Please update the tree node index file and output path before running the code.
+Please update the tree node index file (output of last step), data files and output path before running the code.
 
 ```bash
-sh scripts/egoschema.sh
+sh scripts/egoschema_qa.sh
 ```
 
 
@@ -108,7 +111,7 @@ sh scripts/egoschema.sh
 
 
 ## Acknowledgments
-We thank the developers of [LLoVi](https://github.com/CeeZh/LLoVi), [LifelongMemory](https://github.com/Agentic-Learning-AI-Lab/lifelong-memory), [EVA-CLIP](https://huggingface.co/BAAI/EVA-CLIP-18B#eva-clip-8b) for their public code release. We also thank the authors of [VideoAgent](https://arxiv.org/pdf/2403.10517) for the helpful discussion. 
+We thank the developers of [LLoVi](https://github.com/CeeZh/LLoVi), [LifelongMemory](https://github.com/Agentic-Learning-AI-Lab/lifelong-memory), [EVA-CLIP](https://huggingface.co/BAAI/EVA-CLIP-18B#eva-clip-8b), [Kmeans-pytorch](https://github.com/subhadarship/kmeans_pytorch) and [SKlearn Clustering](https://scikit-learn.org/stable/auto_examples/cluster/plot_ward_structured_vs_unstructured.html) for their public code release. We also thank the authors of [VideoAgent](https://arxiv.org/pdf/2403.10517) for the helpful discussion. 
 
 # Reference
 Please cite our paper if you use our models in your works:

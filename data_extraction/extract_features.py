@@ -65,7 +65,7 @@ def clip_es():
     resume = True
 
     base_path = Path('path/to/data/egoschema_frames')
-    save_folder = 'path/to/data/egoschema_features'
+    save_folder = '/path/to/egoschema/frame_features'
     all_data = []
 
     with open('./data/subset_answers.json', 'r') as file:

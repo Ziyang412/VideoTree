@@ -59,8 +59,19 @@ def update_pred_response(text):
     if prediction_match:
         # Update 'pred' with the numerical value of the prediction
         pred = prediction_map[prediction_match.group(1).upper()]
+    else:
+        pred = 0
     return pred
 
+def update_relevance_response(text):
+    response = text
+    # print("response",response)
+
+    relevance_match = re.search(r"frame relevance: \[([0-9, ]+)\]", response)
+    if relevance_match:
+        # Convert the matched string to a list of integers
+       relevance = list(map(int, relevance_match.group(1).split(',')))
+    return relevance
 
 class PromptTemplate(object):
     def __init__(self, head, template, post_process_fn):
@@ -115,14 +126,14 @@ class PromptFactory(object):
 
         # egoschema QA cap score
         prompt_templates['cap_score'] = PromptTemplate(
-            head = "You are presented with a textual description of a first view video clip, it consists of about 8 frame captions (might be slightly fewer) sparsely sampled from the video (#C means the first person view, and #O indicates another). The ultimate goal is to answer a question related to this video, choosing the correct option out of five possible answers. Please provide the answer with a single-letter (A, B, C, D, E)" + \
+            head = "You are presented with a textual description of a first view video clip, it consists of N sparsely sampled from the video (#C means the first person view, and #O indicates another). The ultimate goal is to answer a question related to this video, choosing the correct option out of five possible answers. Please provide the answer with a single-letter (A, B, C, D, E)" + \
                         "It is crucial that you imagine the visual scene as vividly as possible to enhance the accuracy of your response. After selecting your answer, rate your confidence level in this choice on a scale from 1 to 100, where 1 indicates low confidence and 100 signifies high confidence. " + \
                         "Please provide a concise one-sentence explanation for your chosen answer. If you are uncertain about the correct option, select the one that seems closest to being correct. " + \
-                        "Meanwhile, could you provide a relevance score for each frame caption to evaluate their relevance with the query-answering process. The score is between 1,2,3, where 1 indicates low relevance and 3 signifies high relevance. Please return the relevance score in the format of a list of 8 scores (if the caption is not enough of 8, then output the score of exact number of captions in the list).",
+                        "Meanwhile, could you provide a relevance score for each frame caption to evaluate their relevance with the query-answering process. The score is between 1,2,3, where 1 indicates low relevance and 3 signifies high relevance. Please return the relevance score in the format of a list of N scores.",
             template = [
                 Template("Description: $narration \n\n###\n\n Questions: $question \n Options: \n A: $optionA \n B: $optionB \n C: $optionC \n D: $optionD \n E: $optionE \n\n###\n\n The prediction, explanation, confidence is (please response in the format of 'prediction: \n explanation: \n confidence: \n frame relevance: \n'):"),
             ],
-            post_process_fn = first_char_as_answer
+            post_process_fn = update_relevance_response
         )
 
         # egoschema QA 
@@ -214,19 +225,19 @@ class PromptFactory(object):
 
 
 
-        # egoschema QA old
+        # next-qa QA, intentQA QA relevance scoring
         prompt_templates['next_rel'] = PromptTemplate(
-            head = "You are presented with a textual description of a video, it consists of about 4 frame captions sparsely sampled from the video (#C means the first person view, and #O indicates another). The ultimate goal is to answer a question related to this video, choosing the correct option out of five possible answers. Please provide the answer with a single-letter (A, B, C, D, E)" + \
+            head = "You are presented with a textual description of a video, it consists of N frame captions sparsely sampled from the video (#C means the first person view, and #O indicates another). The ultimate goal is to answer a question related to this video, choosing the correct option out of five possible answers. Please provide the answer with a single-letter (A, B, C, D, E)" + \
                         "It is crucial that you imagine the visual scene as vividly as possible to enhance the accuracy of your response. After selecting your answer, rate your confidence level in this choice on a scale from 1 to 100, where 1 indicates low confidence and 100 signifies high confidence. " + \
                         "Please provide a concise one-sentence explanation for your chosen answer. If you are uncertain about the correct option, select the one that seems closest to being correct. " + \
-                        "Meanwhile, could you provide a relevance score for each frame caption to evaluate their relevance with the query-answering process. The score is between 1,2,3, where 1 indicates low relevance and 3 signifies high relevance. Please return the relevance score in the format of a list of 4 scores.",
+                        "Meanwhile, could you provide a relevance score for each frame caption to evaluate their relevance with the query-answering process. The score is between 1,2,3, where 1 indicates low relevance and 3 signifies high relevance. Please return the relevance score in the format of a list of N scores.",
             template = [
                 Template("Description: $narration \n\n###\n\n Questions: $question \n Options: \n A: $optionA \n B: $optionB \n C: $optionC \n D: $optionD \n E: $optionE \n\n###\n\n The prediction, explanation, confidence is (please response in the format of 'prediction: \n explanation: \n confidence: \n frame relevance: \n'):"),
             ],
             post_process_fn = first_char_as_answer
         )
 
-        # egoschema QA old
+        # next-qa QA, intentQA QA  question answering
         prompt_templates['next_neo'] = PromptTemplate(
             head = "You are presented with a textual description of a video, it consists of frame captions sparsely sampled from the video (#C means the first person view, and #O indicates another). The ultimate goal is to answer a question related to this video, choosing the correct option out of five possible answers. Please provide the answer with a single-letter (A, B, C, D, E)" + \
                         "It is crucial that you imagine the visual scene as vividly as possible to enhance the accuracy of your response. After selecting your answer, rate your confidence level in this choice on a scale from 1 to 100, where 1 indicates low confidence and 100 signifies high confidence. " + \
