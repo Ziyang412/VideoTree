@@ -1,6 +1,6 @@
-# VideoTree: Adaptive Tree-based Video Representation for LLM Reasoning on Long Videos
+# [CVPR 2025] VideoTree: Adaptive Tree-based Video Representation for LLM Reasoning on Long Videos
 
-This is the official implementation for VideoTree 
+This is the official implementation for VideoTree (CVPR2025)
 
 [![Project Website](https://img.shields.io/badge/Project-Website-blue)](https://videotree2024.github.io/)  [![arXiv](https://img.shields.io/badge/arXiv-2405.19209-b31b1b.svg)](https://arxiv.org/abs/2405.19209)
 
