@@ -117,9 +117,11 @@ We thank the developers of [LLoVi](https://github.com/CeeZh/LLoVi), [LifelongMem
 Please cite our paper if you use our models in your works:
 
 ```bibtex
-@article{wang2024videotree,
-  title={VideoTree: Adaptive Tree-based Video Representation for LLM Reasoning on Long Videos},
-  author={Wang, Ziyang and Yu, Shoubin and Stengel-Eskin, Elias and Yoon, Jaehong and Cheng, Feng and Bertasius, Gedas and Bansal, Mohit},
-  journal={arXiv preprint arXiv:2405.19209},
-  year={2024}
+@InProceedings{Wang_2025_CVPR,
+    author    = {Wang, Ziyang and Yu, Shoubin and Stengel-Eskin, Elias and Yoon, Jaehong and Cheng, Feng and Bertasius, Gedas and Bansal, Mohit},
+    title     = {VideoTree: Adaptive Tree-based Video Representation for LLM Reasoning on Long Videos},
+    booktitle = {Proceedings of the Computer Vision and Pattern Recognition Conference (CVPR)},
+    month     = {June},
+    year      = {2025},
+    pages     = {3272-3283}
 }
